@@ -11,3 +11,4 @@ RUN npm test
 FROM build AS prod
 EXPOSE 3000
 CMD npm start
+
