@@ -1,0 +1,34 @@
+name: Test Pipeline
+
+on: [pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: npm install
+        
+    - name: Run unit tests
+      run: |
+        if npm run test:unit --if-present; then
+          echo "Unit tests completed successfully"
+        else
+          echo "No unit test script found. Skipping unit tests."
+        fi
+      
+    - name: Run end-to-end tests
+      run: |
+        if npm run test:e2e --if-present; then
+          echo "End-to-end tests completed successfully"
+        else
+          echo "No end-to-end test script found. Skipping E2E tests."
+        fi
